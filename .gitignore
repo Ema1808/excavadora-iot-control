@@ -1,0 +1,33 @@
+
+# ==========================================
+# EXCAVADORA IoT - ARCHIVOS IGNORADOS
+# ==========================================
+
+# Credenciales y configuración privada
+.env
+.env.*
+!.env.example
+secrets.json
+config.local.js
+*.pem
+*.key
+
+# Dependencias
+node_modules/
+
+# Archivos temporales
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Configuración local de VS Code
+.vscode/settings.json
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+.venv/
+
+# Cachés
+.cache/

@@ -1,0 +1,99 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Prueba WSS - Excavadora IoT</title>
+</head>
+<body>
+
+  <h1>Prueba WebSocket - Excavadora IoT</h1>
+
+  <p>
+    Esta prueba no envía comandos de movimiento.
+  </p>
+
+  <button id="connect">Conectar WSS</button>
+  <button id="disconnect" disabled>Desconectar</button>
+
+  <p id="status" role="status">
+    Estado: Sin conectar
+  </p>
+
+  <pre id="output"></pre>
+
+  <script type="module">
+    const WS_URL =
+      'wss://excavadora-em-iot.duckdns.org/ws/vehiculos/7';
+
+    const connectButton =
+      document.getElementById('connect');
+
+    const disconnectButton =
+      document.getElementById('disconnect');
+
+    const status =
+      document.getElementById('status');
+
+    const output =
+      document.getElementById('output');
+
+    let socket = null;
+
+    function log(message) {
+      console.log('[WSS TEST]', message);
+      output.textContent += message + '\n';
+    }
+
+    connectButton.addEventListener('click', () => {
+      if (socket) return;
+
+      status.textContent = 'Estado: Conectando...';
+
+      socket = new WebSocket(WS_URL);
+
+      connectButton.disabled = true;
+
+      socket.addEventListener('open', () => {
+        status.textContent = 'Estado: Conectado';
+        disconnectButton.disabled = false;
+
+        log('Conexión WSS establecida.');
+      });
+
+      socket.addEventListener('message', event => {
+        log('Mensaje recibido: ' + event.data);
+      });
+
+      socket.addEventListener('error', () => {
+        log('Error durante la conexión WSS.');
+      });
+
+      socket.addEventListener('close', event => {
+        log(
+          'Conexión cerrada. Código: ' +
+          event.code +
+          ', motivo: ' +
+          (event.reason || 'No especificado')
+        );
+
+        status.textContent = 'Estado: Desconectado';
+
+        socket = null;
+
+        connectButton.disabled = false;
+        disconnectButton.disabled = true;
+      });
+    });
+
+    disconnectButton.addEventListener('click', () => {
+      if (socket) {
+        socket.close(1000, 'Prueba finalizada');
+      }
+    });
+  </script>
+
+</body>
+</html>

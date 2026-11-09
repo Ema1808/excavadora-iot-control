@@ -1,0 +1,1428 @@
+
+/* ==========================================
+   EXCAVADORA IoT - ESTILOS GENERALES
+   ========================================== */
+
+:root {
+  color-scheme: dark;
+
+  --bg: #0b1220;
+  --sidebar: #14233a;
+  --panel: #172338;
+  --panel-light: #1d2b40;
+  --border: #33445d;
+
+  --text: #f3f7ff;
+  --muted: #b4c3d8;
+
+  --accent: #6bb6ff;
+  --primary: #2563eb;
+  --danger: #e43c4d;
+  --success: #4ade80;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ==========================================
+   ESTRUCTURA PRINCIPAL
+   ========================================== */
+
+.iot-layout {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.iot-main-area {
+  min-width: 0;
+  padding: 0 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+#main-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.iot-view[hidden] {
+  display: none !important;
+}
+
+/* ==========================================
+   MENÚ LATERAL
+   ========================================== */
+
+.iot-sidebar {
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 14px 10px;
+}
+
+.iot-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 8px 8px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.iot-brand-icon {
+  font-size: 28px;
+}
+
+.iot-brand strong,
+.iot-brand small {
+  display: block;
+}
+
+.iot-brand strong {
+  font-size: 14px;
+}
+
+.iot-brand small {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.iot-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  padding-top: 16px;
+}
+
+.iot-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  padding: 11px 12px;
+
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+
+  color: #cbd5e1;
+  text-align: left;
+  font-size: 13px;
+
+  cursor: pointer;
+
+  transition: background 0.2s, color 0.2s;
+}
+
+.iot-nav-link:hover {
+  background: #263b57;
+  color: #fff;
+}
+
+.iot-nav-link.active {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+}
+
+.iot-nav-link span {
+  font-size: 17px;
+}
+
+.iot-sidebar-footer {
+  margin-top: auto;
+  padding: 12px 8px 4px;
+
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* ==========================================
+   ENCABEZADO
+   ========================================== */
+
+.iot-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 12px 0;
+  margin-bottom: 12px;
+
+  border-bottom: 1px solid var(--border);
+}
+
+.iot-topbar h1 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.iot-topbar p {
+  margin: 3px 0 0;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.iot-mode {
+  padding: 6px 11px;
+
+  background: #1e3a5f;
+  color: #93c5fd;
+
+  border: 1px solid #3b82f6;
+  border-radius: 20px;
+
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  white-space: nowrap;
+}
+
+/* ==========================================
+   INDICADORES DE CONECTIVIDAD
+   ========================================== */
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+
+  margin-bottom: 10px !important;
+}
+
+.status-card {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+
+  padding: 10px 12px;
+
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.status-name {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.status-value {
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.status-value::before {
+  content: "";
+  display: inline-block;
+
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+
+  border-radius: 50%;
+  background: #94a3b8;
+}
+
+.status-value[data-state="online"]::before {
+  background: var(--success);
+}
+
+.status-value[data-state="checking"]::before {
+  background: #fbbf24;
+}
+
+.status-value[data-state="offline"]::before {
+  background: #fb7185;
+}
+
+/* ==========================================
+   PANELES
+   ========================================== */
+
+.panel {
+  min-width: 0;
+  padding: 14px;
+
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+
+  box-shadow: 0 8px 20px #0002;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.section-heading h2 {
+  font-size: 15px;
+}
+
+.iot-page-heading {
+  margin-bottom: 10px;
+}
+
+.iot-page-heading h2 {
+  margin: 0 0 3px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.iot-page-heading p {
+  margin: 0;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* ==========================================
+   AUTENTICACIÓN DESPLEGABLE
+   ========================================== */
+
+.iot-auth-panel {
+  padding: 10px 14px;
+  margin-bottom: 10px !important;
+}
+
+.iot-auth-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.iot-auth-summary .muted {
+  font-weight: 400;
+}
+
+.iot-auth-panel[open] {
+  position: relative;
+  z-index: 2;
+}
+
+.auth-input {
+  min-width: 0;
+  min-height: 36px;
+
+  background: #263951;
+  color: #fff;
+
+  border: 1px solid #6b819b;
+}
+
+.auth-input::placeholder {
+  color: #b4c3d8;
+}
+
+.auth-input:focus {
+  background: #263951;
+  color: #fff;
+}
+
+#auth-form {
+  gap: 8px !important;
+}
+
+#auth-form button {
+  min-height: 36px;
+  padding: 7px 12px;
+  font-size: 12px;
+}
+
+#auth-message {
+  font-size: 11px;
+}
+
+/* ==========================================
+   BOTONES GENERALES
+   ========================================== */
+
+.stop-btn,
+.action-btn,
+.primary-btn,
+.secondary-btn {
+  border-radius: 9px;
+  border: 1px solid transparent;
+
+  min-height: 38px;
+  padding: 8px 12px;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.primary-btn {
+  background: #2473c5;
+  color: #fff;
+}
+
+.secondary-btn,
+.action-btn {
+  background: #273951;
+  border-color: #55708c;
+  color: #f3f7ff;
+}
+
+.stop-btn {
+  background: var(--danger);
+  color: #fff;
+  font-size: 13px;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+button:not(:disabled) {
+  cursor: pointer;
+}
+
+button:focus-visible,
+.joystick:focus-visible,
+.form-select:focus-visible,
+.auth-input:focus-visible,
+.iot-auth-summary:focus-visible {
+  outline: 3px solid #fcd34d;
+  outline-offset: 3px;
+}
+
+/* ==========================================
+   VISTA CONTROL
+   ========================================== */
+
+.content-grid {
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) minmax(0, 1fr);
+
+  gap: 12px;
+  min-width: 0;
+}
+
+.side-stack {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 12px;
+  min-width: 0;
+}
+
+/* ==========================================
+   JOYSTICK
+   ========================================== */
+
+.joystick-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.joystick-panel .section-heading {
+  width: 100%;
+}
+
+.joystick-panel > p.muted {
+  font-size: 11px;
+}
+
+.joystick {
+  touch-action: none;
+  user-select: none;
+
+  position: relative;
+
+  width: min(100%, 215px);
+  aspect-ratio: 1 / 1;
+
+  margin: 8px auto;
+
+  border: 2px solid #57708d;
+  border-radius: 50%;
+
+  background: radial-gradient(
+    circle,
+    #293c55 0%,
+    #1b2b41 65%,
+    #142034 100%
+  );
+
+  box-shadow: inset 0 0 0 14px #ffffff06;
+  opacity: 0.85;
+
+  flex-shrink: 0;
+}
+
+.joystick-knob {
+  --joystick-x: 0px;
+  --joystick-y: 0px;
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: 34%;
+  aspect-ratio: 1 / 1;
+
+  border-radius: 50%;
+
+  transform: translate(
+    calc(-50% + var(--joystick-x)),
+    calc(-50% + var(--joystick-y))
+  );
+
+  background: linear-gradient(
+    145deg,
+    #8fa9c6,
+    #45617f
+  );
+
+  border: 3px solid #b5d4f4;
+  box-shadow: 0 5px 16px #0008;
+}
+
+.direction {
+  position: absolute;
+  color: #b6d0eb;
+  font-size: 17px;
+}
+
+.direction-up {
+  top: 7%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.direction-down {
+  bottom: 7%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.direction-left {
+  left: 9%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.direction-right {
+  right: 9%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.movement-label {
+  margin: 5px 0 !important;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+  color: #d2e4f9;
+  font-weight: 700;
+}
+
+.joystick-panel .stop-btn {
+  margin-top: 6px;
+}
+
+/* ==========================================
+   BRAZO Y PALA
+   ========================================== */
+
+.action-grid,
+.demo-buttons {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 8px;
+}
+
+.action-grid {
+  margin-top: 10px !important;
+}
+
+.action-btn {
+  padding: 9px 7px;
+}
+
+/* ==========================================
+   HISTORIAL DE ACTIVIDAD
+   ========================================== */
+
+#action-message {
+  color: #d3e2f6;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+
+.activity-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  max-height: 170px;
+  overflow-y: auto;
+}
+
+.activity-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  padding: 8px 10px;
+  margin-bottom: 6px;
+
+  border: 1px solid #344761;
+  border-radius: 8px;
+  background: var(--panel-light);
+}
+
+.activity-item strong {
+  color: #f4f7ff;
+  font-size: 12px;
+}
+
+.activity-item span {
+  color: #a9bdd7;
+  font-size: 11px;
+}
+
+.activity-history:empty::before {
+  content: "Todavía no hay movimientos registrados.";
+  display: block;
+  padding: 10px;
+  color: #a9bdd7;
+  font-size: 11px;
+}
+
+#clear-history {
+  margin-top: 8px !important;
+}
+
+/* ==========================================
+   DEMOSTRACIONES
+   ========================================== */
+
+.form-select {
+  min-height: 38px;
+  background-color: #263951;
+  color: #fff;
+  border: 1px solid #6b819b;
+}
+
+.form-select:disabled {
+  background-color: #1e2b3c;
+  color: #b5c4d8;
+}
+
+/* ==========================================
+   ESTADO REGISTRADO DEL VEHÍCULO
+   ========================================== */
+
+.vehicle-state-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+.vehicle-state-grid > div {
+  min-width: 0;
+  padding: 14px;
+
+  background: var(--panel-light);
+  border: 1px solid #344761;
+  border-radius: 9px;
+}
+
+.vehicle-state-grid p {
+  margin-top: 5px;
+  color: #f4f7ff;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* ==========================================
+   PIE DE PÁGINA
+   ========================================== */
+
+.app-footer {
+  color: var(--muted);
+  font-size: 10px;
+  border-top: 1px solid var(--border);
+  padding: 7px 0 !important;
+  margin-top: 8px !important;
+}
+
+/* ==========================================
+   ESCRITORIO - DASHBOARD SIN SCROLL GENERAL
+   ========================================== */
+
+@media (min-width: 901px) and (min-height: 650px) {
+
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .iot-layout {
+    height: 100vh;
+    min-height: 0;
+  }
+
+  .iot-sidebar {
+    height: 100vh;
+  }
+
+  .iot-main-area {
+    height: 100vh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  #main-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    gap: 8px;
+  }
+
+  .iot-topbar {
+    flex-shrink: 0;
+    margin-bottom: 8px;
+  }
+
+  .status-grid {
+    flex-shrink: 0;
+    margin-bottom: 0 !important;
+  }
+
+  .iot-auth-panel {
+    flex-shrink: 0;
+    margin-bottom: 0 !important;
+  }
+
+  #view-control {
+    flex: 1;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  #view-control .iot-page-heading {
+    flex-shrink: 0;
+    margin-bottom: 8px;
+  }
+
+  #view-control .content-grid {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  #view-control .joystick-panel {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  #view-control .side-stack {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  #view-control .side-stack > .panel:last-child {
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+  }
+
+  #view-control .activity-history {
+    flex: 1;
+    min-height: 0;
+    max-height: none;
+    overflow-y: auto;
+  }
+
+  #view-control #clear-history {
+    align-self: flex-start;
+    flex-shrink: 0;
+  }
+
+  /* Las demás vistas pueden desplazarse
+     internamente si tienen más contenido. */
+
+  #view-demo,
+  #view-estado,
+  #view-acerca {
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .app-footer {
+    flex-shrink: 0;
+    margin-top: 0 !important;
+  }
+}
+
+/* ==========================================
+   ESCRITORIOS CON POCA ALTURA
+   ========================================== */
+
+@media (min-width: 901px) and (max-height: 800px) {
+
+  .iot-topbar {
+    padding: 8px 0;
+  }
+
+  .iot-page-heading p {
+    display: none;
+  }
+
+  .joystick {
+    width: min(100%, 170px, 26vh);
+    margin: 5px auto;
+  }
+
+  .joystick-panel > p.muted {
+    margin-bottom: 6px !important;
+  }
+
+  .panel {
+    padding: 10px 12px;
+  }
+
+  .action-btn {
+    min-height: 34px;
+    padding: 6px;
+  }
+
+  .stop-btn {
+    min-height: 34px;
+    padding: 6px;
+  }
+
+  .side-stack {
+    gap: 8px;
+  }
+}
+
+/* ==========================================
+   TABLETS
+   ========================================== */
+
+@media (min-width: 651px) and (max-width: 900px) {
+
+  .iot-layout {
+    grid-template-columns: 160px minmax(0, 1fr);
+  }
+
+  .iot-main-area {
+    padding: 0 14px;
+  }
+
+  .iot-sidebar {
+    padding: 12px 8px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .joystick {
+    width: 210px;
+  }
+
+  .side-stack {
+    grid-template-rows: auto auto;
+  }
+}
+
+/* ==========================================
+   TELÉFONOS
+   ========================================== */
+
+@media (max-width: 650px) {
+
+  .iot-layout {
+    display: block;
+  }
+
+  .iot-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 10px;
+  }
+
+  .iot-brand {
+    padding-bottom: 10px;
+  }
+
+  .iot-nav {
+    flex-direction: row;
+    overflow-x: auto;
+    padding-top: 10px;
+  }
+
+  .iot-nav-link {
+    justify-content: center;
+    flex: 0 0 auto;
+    width: auto;
+
+    padding: 9px 11px;
+    font-size: 12px;
+  }
+
+  .iot-sidebar-footer {
+    display: none;
+  }
+
+  .iot-main-area {
+    padding: 0 12px;
+  }
+
+  .iot-topbar {
+    padding: 14px 0;
+  }
+
+  .iot-topbar h1 {
+    font-size: 17px;
+  }
+
+  .iot-topbar p {
+    font-size: 10px;
+  }
+
+  .iot-mode {
+    font-size: 9px;
+  }
+
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .status-card {
+    padding: 9px 11px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .side-stack {
+    grid-template-rows: auto auto;
+  }
+
+  .vehicle-state-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .joystick {
+    width: min(100%, 230px);
+  }
+}
+
+/* ==========================================
+   TELÉFONOS PEQUEÑOS
+   ========================================== */
+
+@media (max-width: 380px) {
+
+  .action-grid,
+  .demo-buttons {
+    grid-template-columns: 1fr;
+  }
+
+  .iot-topbar h1 {
+    font-size: 15px;
+  }
+}
+
+/* ==========================================
+   ACCESIBILIDAD Y ANIMACIONES
+   ========================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+
+  button:not(:disabled) {
+    transition:
+      filter 0.15s,
+      transform 0.15s;
+  }
+
+  button:not(:disabled):active {
+    transform: scale(0.98);
+  }
+}
+
+/* ==========================================
+   EXCAVADORA IoT
+   OPTIMIZACION RESPONSIVA PARA MOVILES
+   ========================================== */
+
+/* Evitar desplazamiento horizontal */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+/* ==========================================
+   TABLET Y CELULAR
+   ========================================== */
+
+@media (max-width: 650px) {
+
+  /* Estructura principal */
+  .iot-layout {
+    display: block;
+    min-height: 100dvh;
+  }
+
+  .iot-main-area {
+    padding: 0 10px;
+    min-width: 0;
+  }
+
+  /* Encabezado superior */
+  .iot-topbar {
+    padding: 9px 0;
+    margin-bottom: 8px;
+    gap: 8px;
+  }
+
+  .iot-topbar h1 {
+    font-size: 16px;
+    line-height: 1.25;
+  }
+
+  .iot-topbar p {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  .iot-mode {
+    padding: 5px 8px;
+    font-size: 9px;
+    flex-shrink: 0;
+  }
+
+  /* ========================================
+     MENU SUPERIOR MOVIL
+     ======================================== */
+
+  .iot-sidebar {
+    padding: 7px 10px;
+  }
+
+  .iot-brand {
+    gap: 8px;
+    padding: 5px 5px 8px;
+  }
+
+  .iot-brand-icon {
+    font-size: 23px;
+  }
+
+  .iot-brand strong {
+    font-size: 13px;
+  }
+
+  .iot-brand small {
+    font-size: 11px;
+  }
+
+  .iot-nav {
+    flex-direction: row;
+    gap: 4px;
+    padding-top: 7px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .iot-nav-link {
+    flex: 0 0 auto;
+    width: auto;
+    min-height: 44px;
+    padding: 9px 10px;
+    font-size: 12px;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .iot-nav-link span {
+    font-size: 15px;
+  }
+
+  .iot-sidebar-footer {
+    display: none;
+  }
+
+  /* ========================================
+     INDICADORES DE CONECTIVIDAD
+     ======================================== */
+
+  .status-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 6px;
+    margin-bottom: 8px !important;
+  }
+
+  .status-card {
+    padding: 7px 10px;
+    border-radius: 10px;
+    gap: 2px;
+  }
+
+  .status-name {
+    font-size: 10px;
+    line-height: 1.3;
+  }
+
+  .status-value {
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .status-value::before {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* ========================================
+     AUTENTICACION
+     ======================================== */
+
+  .iot-auth-panel {
+    padding: 9px 11px;
+    margin-bottom: 8px !important;
+  }
+
+  .iot-auth-summary {
+    font-size: 11px;
+    gap: 6px;
+  }
+
+  #auth-form button,
+  .auth-input {
+    min-height: 44px;
+  }
+
+  /* ========================================
+     TITULOS Y PANELES
+     ======================================== */
+
+  .iot-page-heading {
+    margin-bottom: 8px;
+  }
+
+  .iot-page-heading h2 {
+    font-size: 16px;
+  }
+
+  .iot-page-heading p {
+    font-size: 10px;
+  }
+
+  .panel {
+    padding: 11px;
+    border-radius: 12px;
+  }
+
+  .section-heading h2 {
+    font-size: 14px;
+  }
+
+  /* ========================================
+     DISTRIBUCION DEL CONTROL
+     ======================================== */
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .side-stack {
+    display: grid;
+    grid-template-rows: auto auto;
+    gap: 9px;
+  }
+
+  /* ========================================
+     JOYSTICK
+     ======================================== */
+
+  .joystick-panel {
+    padding: 11px;
+  }
+
+  .joystick-panel > p.muted {
+    font-size: 10px;
+    margin-top: 5px !important;
+    margin-bottom: 7px !important;
+  }
+
+  .joystick {
+    width: min(100%, 190px);
+    aspect-ratio: 1 / 1;
+    margin: 5px auto;
+    touch-action: none;
+  }
+
+  .joystick-knob {
+    width: 34%;
+  }
+
+  .direction {
+    font-size: 15px;
+  }
+
+  .movement-label {
+    font-size: 11px;
+    margin: 4px 0 !important;
+  }
+
+  /* ========================================
+     BOTON DETENER
+     ======================================== */
+
+  .stop-btn {
+    min-height: 46px;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .joystick-panel .stop-btn {
+    margin-top: 5px;
+  }
+
+  .joystick-panel .muted {
+    line-height: 1.4;
+  }
+
+  /* ========================================
+     BRAZO Y PALA
+     ======================================== */
+
+  .action-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 9px !important;
+  }
+
+  .action-btn {
+    min-height: 44px;
+    padding: 9px 5px;
+    font-size: 11px;
+  }
+
+  /* ========================================
+     ACTIVIDAD E HISTORIAL
+     ======================================== */
+
+  #action-message {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .activity-history {
+    max-height: 160px;
+    overflow-y: auto;
+  }
+
+  .activity-item {
+    padding: 8px 10px;
+    margin-bottom: 5px;
+  }
+
+  #clear-history {
+    min-height: 44px;
+  }
+
+  /* ========================================
+     DEMO
+     ======================================== */
+
+  .demo-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .demo-buttons button,
+  .form-select {
+    min-height: 44px;
+  }
+
+  /* ========================================
+     ESTADO DEL VEHICULO
+     ======================================== */
+
+  .vehicle-state-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .vehicle-state-grid > div {
+    padding: 11px;
+  }
+
+  /* ========================================
+     PIE DE PAGINA
+     ======================================== */
+
+  .app-footer {
+    padding: 12px 5px !important;
+    margin-top: 10px !important;
+    font-size: 10px;
+    line-height: 1.5;
+    text-align: center;
+  }
+}
+
+/* ==========================================
+   CELULARES PEQUENOS
+   ========================================== */
+
+@media (max-width: 380px) {
+
+  .iot-main-area {
+    padding: 0 8px;
+  }
+
+  .iot-nav-link {
+    padding: 8px 9px;
+    font-size: 11px;
+  }
+
+  .iot-topbar h1 {
+    font-size: 15px;
+  }
+
+  .joystick {
+    width: min(100%, 175px);
+  }
+
+  .action-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .action-btn {
+    font-size: 10px;
+    padding: 8px 4px;
+  }
+
+  .demo-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================
+   CELULAR EN ORIENTACION HORIZONTAL
+   ========================================== */
+
+@media (max-width: 900px) and
+       (orientation: landscape) and
+       (max-height: 500px) {
+
+  .iot-topbar {
+    padding: 7px 0;
+  }
+
+  .status-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .status-card {
+    padding: 7px 8px;
+  }
+
+  .content-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .joystick {
+    width: min(100%, 160px);
+  }
+
+  .side-stack {
+    grid-template-rows: auto auto;
+  }
+
+  .panel {
+    padding: 10px;
+  }
+
+  .action-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ==========================================
+   ACCESIBILIDAD
+   ========================================== */
+
+@media (max-width: 650px) {
+
+  button:focus-visible,
+  .joystick:focus-visible,
+  .form-select:focus-visible,
+  .auth-input:focus-visible,
+  .iot-auth-summary:focus-visible {
+    outline: 3px solid #fcd34d;
+    outline-offset: 3px;
+  }
+
+  button,
+  input,
+  select {
+    touch-action: manipulation;
+  }
+}

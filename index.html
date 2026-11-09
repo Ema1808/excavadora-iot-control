@@ -1,0 +1,747 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <meta
+    name="description"
+    content="Panel de control de la Excavadora IoT"
+  >
+
+  <title>Control | Excavadora IoT</title>
+
+  <link
+    rel="icon"
+    href="./favicon.svg"
+    type="image/svg+xml"
+  >
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  >
+
+  <link rel="stylesheet" href="./assets/css/styles.css">
+
+  <script type="module" src="./js/main.js"></script>
+</head>
+
+<body>
+
+<div class="iot-layout">
+
+  <!-- =====================================
+       MENÚ LATERAL
+       ===================================== -->
+  <aside class="iot-sidebar">
+
+    <div class="iot-brand">
+      <span class="iot-brand-icon" aria-hidden="true">
+        🚜
+      </span>
+
+      <div>
+        <strong>Excavadora</strong>
+        <small>IoT Control</small>
+      </div>
+    </div>
+
+    <nav class="iot-nav" aria-label="Menú principal">
+
+      <button
+        class="iot-nav-link active"
+        data-view="control"
+        type="button"
+      >
+        <span aria-hidden="true">⌂</span>
+        Control
+      </button>
+
+      <button
+        class="iot-nav-link"
+        data-view="demo"
+        type="button"
+      >
+        <span aria-hidden="true">▤</span>
+        DEMO
+      </button>
+
+      <button
+        class="iot-nav-link"
+        data-view="estado"
+        type="button"
+      >
+        <span aria-hidden="true">◉</span>
+        Estado
+      </button>
+
+      <button
+        class="iot-nav-link"
+        data-view="acerca"
+        type="button"
+      >
+        <span aria-hidden="true">ⓘ</span>
+        Acerca de
+      </button>
+
+    </nav>
+
+    <div class="iot-sidebar-footer">
+      Vehículo #7 · 2026
+    </div>
+
+  </aside>
+
+  <!-- =====================================
+       CONTENIDO PRINCIPAL
+       ===================================== -->
+  <div class="iot-main-area">
+
+    <!-- ENCABEZADO COMPACTO -->
+    <header class="iot-topbar">
+
+      <div>
+        <h1>Control de Vehículo IoT</h1>
+        <p>Excavadora IoT · Panel de administración</p>
+      </div>
+
+      <span class="iot-mode">
+        SIMULACIÓN
+      </span>
+
+    </header>
+
+    <main id="main-content">
+
+      <!-- =====================================
+           INDICADORES DE CONECTIVIDAD
+           ===================================== -->
+      <section
+        class="status-grid mb-4"
+        aria-label="Conectividad"
+      >
+
+        <div class="status-card">
+          <span class="status-name">
+            ◉ WebSocket WSS
+          </span>
+
+          <strong
+            id="wss-status"
+            class="status-value"
+            data-state="offline"
+          >
+            Desconectado
+          </strong>
+        </div>
+
+        <div class="status-card">
+          <span class="status-name">
+            ☁ Servidor AWS · API
+          </span>
+
+          <strong
+            id="api-status"
+            class="status-value"
+            data-state="checking"
+          >
+            Sin autenticar
+          </strong>
+        </div>
+
+        <div class="status-card">
+          <span class="status-name">
+            ▤ Amazon RDS
+          </span>
+
+          <strong
+            id="rds-status"
+            class="status-value"
+            data-state="unknown"
+          >
+            Sin verificar
+          </strong>
+        </div>
+
+      </section>
+
+      <!-- =====================================
+           AUTENTICACIÓN DESPLEGABLE
+           ===================================== -->
+      <details class="panel iot-auth-panel">
+
+        <summary class="iot-auth-summary">
+          <span>🔐 Conexión con FastAPI</span>
+
+          <span class="muted small">
+            Mostrar / ocultar
+          </span>
+        </summary>
+
+        <div class="mt-3">
+
+          <h2
+            id="auth-heading"
+            class="visually-hidden"
+          >
+            Conexión local con FastAPI
+          </h2>
+
+          <p class="muted small">
+            Autenticación de pruebas desde localhost.
+            La clave se mantiene en memoria.
+          </p>
+
+          <form
+            id="auth-form"
+            autocomplete="off"
+            class="d-flex flex-column flex-sm-row gap-2"
+          >
+
+            <label
+              for="api-key"
+              class="visually-hidden"
+            >
+              X-API-Key de pruebas
+            </label>
+
+            <input
+              id="api-key"
+              class="form-control auth-input"
+              type="password"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="X-API-Key de pruebas"
+              required
+            >
+
+            <button
+              id="connect-btn"
+              class="primary-btn"
+              type="submit"
+            >
+              Conectar
+            </button>
+
+            <button
+              id="disconnect-btn"
+              class="secondary-btn"
+              type="button"
+            >
+              Desconectar
+            </button>
+
+          </form>
+
+          <p
+            id="auth-message"
+            class="muted small mt-2 mb-0"
+            role="status"
+            aria-live="polite"
+          >
+            Sin autenticación local.
+          </p>
+
+        </div>
+
+      </details>
+
+      <!-- =====================================
+           VISTA 1: CONTROL
+           ===================================== -->
+      <section
+        id="view-control"
+        class="iot-view"
+      >
+
+        <div class="iot-page-heading">
+          <h2>Control de movimientos</h2>
+          <p>
+            Joystick y controles manuales de simulación
+          </p>
+        </div>
+
+        <div class="content-grid">
+
+          <!-- JOYSTICK -->
+          <section
+            class="panel joystick-panel"
+            aria-labelledby="joystick-heading"
+          >
+
+            <div class="section-heading">
+              <h2
+                id="joystick-heading"
+                class="h5 mb-0"
+              >
+                Movimiento
+              </h2>
+
+              <span class="muted small">
+                Direccional
+              </span>
+            </div>
+
+            <p class="muted small mt-2 mb-3">
+              Usa el joystick o las flechas del teclado.
+            </p>
+
+            <div
+              id="joystick"
+              class="joystick"
+              role="group"
+              aria-label="Joystick de movimiento"
+              aria-disabled="true"
+              tabindex="0"
+            >
+
+              <span
+                class="direction direction-up"
+                aria-hidden="true"
+              >▲</span>
+
+              <span
+                class="direction direction-down"
+                aria-hidden="true"
+              >▼</span>
+
+              <span
+                class="direction direction-left"
+                aria-hidden="true"
+              >◀</span>
+
+              <span
+                class="direction direction-right"
+                aria-hidden="true"
+              >▶</span>
+
+              <span
+                id="joystick-knob"
+                class="joystick-knob"
+                aria-hidden="true"
+              ></span>
+
+            </div>
+
+            <p
+              id="movement-label"
+              class="text-center movement-label mb-3"
+            >
+              NEUTRAL
+            </p>
+
+            <button
+              id="stop-btn"
+              class="stop-btn w-100"
+              type="button"
+              disabled
+            >
+              ■ DETENER
+            </button>
+
+            <p class="muted small mt-2 mb-0 text-center">
+              Detiene únicamente la simulación local.
+              No sustituye un paro físico de emergencia.
+            </p>
+
+          </section>
+
+          <!-- PANEL DERECHO -->
+          <div class="side-stack">
+
+            <!-- BRAZO Y PALA -->
+            <section
+              class="panel"
+              aria-labelledby="actions-heading"
+            >
+
+              <div class="section-heading">
+                <h2
+                  id="actions-heading"
+                  class="h5 mb-0"
+                >
+                  Brazo y pala
+                </h2>
+
+                <span class="muted small">
+                  Controles
+                </span>
+              </div>
+
+              <div class="action-grid mt-3">
+
+                <button
+                  type="button"
+                  class="action-btn"
+                  data-command="SUBIR_BRAZO"
+                  disabled
+                >
+                  ↑ Subir brazo
+                </button>
+
+                <button
+                  type="button"
+                  class="action-btn"
+                  data-command="BAJAR_BRAZO"
+                  disabled
+                >
+                  ↓ Bajar brazo
+                </button>
+
+                <button
+                  type="button"
+                  class="action-btn"
+                  data-command="ABRIR_PALA"
+                  disabled
+                >
+                  ↗ Abrir pala
+                </button>
+
+                <button
+                  type="button"
+                  class="action-btn"
+                  data-command="CERRAR_PALA"
+                  disabled
+                >
+                  ↙ Cerrar pala
+                </button>
+
+              </div>
+
+            </section>
+
+            <!-- ACTIVIDAD -->
+            <section
+              class="panel"
+              aria-labelledby="activity-heading"
+            >
+
+              <h2
+                id="activity-heading"
+                class="h5"
+              >
+                Actividad
+              </h2>
+
+              <p
+                id="action-message"
+                class="mb-3"
+                role="status"
+                aria-live="polite"
+              >
+                Interfaz preparada.
+              </p>
+
+              <h3 class="h6 mt-3">
+                Historial de movimientos
+              </h3>
+
+              <ol
+                id="activity-history"
+                class="activity-history"
+                aria-label="Historial de simulación"
+              ></ol>
+
+              <button
+                id="clear-history"
+                class="secondary-btn mt-3"
+                type="button"
+              >
+                Limpiar historial
+              </button>
+
+            </section>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================
+           VISTA 2: DEMO
+           ===================================== -->
+      <section
+        id="view-demo"
+        class="iot-view"
+        hidden
+      >
+
+        <div class="iot-page-heading">
+          <h2>Demostraciones</h2>
+          <p>
+            Secuencias registradas en FastAPI
+          </p>
+        </div>
+
+        <section
+          class="panel"
+          aria-labelledby="demo-heading"
+        >
+
+          <div class="section-heading">
+            <h2
+              id="demo-heading"
+              class="h5 mb-0"
+            >
+              Secuencia DEMO
+            </h2>
+
+            <span class="muted small">
+              Vehículo #7
+            </span>
+          </div>
+
+          <label
+            class="form-label mt-3"
+            for="demo-select"
+          >
+            Selecciona una DEMO
+          </label>
+
+          <select
+            id="demo-select"
+            class="form-select"
+            disabled
+          >
+            <option value="">
+              Pendiente de cargar
+            </option>
+          </select>
+
+          <div class="demo-buttons mt-3">
+
+            <button
+              id="demo-start"
+              class="primary-btn"
+              type="button"
+              disabled
+            >
+              ▶ Iniciar DEMO
+            </button>
+
+            <button
+              id="demo-cancel"
+              class="secondary-btn"
+              type="button"
+              disabled
+            >
+              Cancelar DEMO
+            </button>
+
+          </div>
+
+          <p class="muted small mt-3 mb-0">
+            La ejecución de movimientos reales
+            permanece deshabilitada.
+          </p>
+
+        </section>
+
+      </section>
+
+      <!-- =====================================
+           VISTA 3: ESTADO
+           ===================================== -->
+      <section
+        id="view-estado"
+        class="iot-view"
+        hidden
+      >
+
+        <div class="iot-page-heading">
+          <h2>Estado del vehículo</h2>
+          <p>
+            Información registrada en FastAPI
+          </p>
+        </div>
+
+        <section
+          class="panel"
+          aria-labelledby="vehicle-state-heading"
+        >
+
+          <h2
+            id="vehicle-state-heading"
+            class="h5 mb-3"
+          >
+            Estado registrado de la excavadora
+          </h2>
+
+          <div class="vehicle-state-grid">
+
+            <div>
+              <span class="muted small">
+                Vehículo
+              </span>
+
+              <p
+                id="vehicle-name"
+                class="mb-0"
+              >
+                Sin consultar
+              </p>
+            </div>
+
+            <div>
+              <span class="muted small">
+                Último comando registrado
+              </span>
+
+              <p
+                id="vehicle-command"
+                class="mb-0"
+              >
+                Sin consultar
+              </p>
+            </div>
+
+            <div>
+              <span class="muted small">
+                Estado registrado en backend
+              </span>
+
+              <p
+                id="vehicle-connected"
+                class="mb-0"
+              >
+                Sin verificar
+              </p>
+            </div>
+
+            <div>
+              <span class="muted small">
+                Última actualización
+              </span>
+
+              <p
+                id="vehicle-updated"
+                class="mb-0"
+              >
+                Sin consultar
+              </p>
+            </div>
+
+          </div>
+
+          <p class="muted small mt-3 mb-0">
+            Este estado no confirma la conexión física
+            de la ESP32 ni la ejecución real de movimientos.
+          </p>
+
+        </section>
+
+      </section>
+
+      <!-- =====================================
+           VISTA 4: ACERCA DE
+           ===================================== -->
+      <section
+        id="view-acerca"
+        class="iot-view"
+        hidden
+      >
+
+        <div class="iot-page-heading">
+          <h2>Acerca del proyecto</h2>
+          <p>
+            Plataforma de control de Excavadora IoT
+          </p>
+        </div>
+
+        <section class="panel">
+
+          <h2 class="h5">
+            Descripción
+          </h2>
+
+          <p>
+            Plataforma web para consultar el estado
+            de una excavadora IoT, administrar
+            demostraciones y desarrollar su control
+            mediante una interfaz web.
+          </p>
+
+          <h3 class="h6 mt-4">
+            Tecnologías utilizadas
+          </h3>
+
+          <p class="muted">
+            HTML, CSS, JavaScript, Bootstrap,
+            FastAPI, AWS, Amazon RDS,
+            WebSocket y ESP32.
+          </p>
+
+          <h3 class="h6 mt-4">
+            Etapa actual
+          </h3>
+
+          <p class="muted mb-0">
+            Simulación local de movimientos,
+            consulta autenticada al backend
+            y visualización del estado registrado.
+          </p>
+
+        </section>
+
+      </section>
+
+    </main>
+
+    <!-- PIE DE PÁGINA -->
+    <footer class="app-footer text-center py-4 mt-4">
+      Desarrollado por Emanuel Gonzalez · 2026
+    </footer>
+
+  </div>
+</div>
+
+<!-- =====================================
+     NAVEGACIÓN ENTRE VISTAS
+     ===================================== -->
+<script>
+  const navButtons =
+    document.querySelectorAll('.iot-nav-link[data-view]');
+
+  const views =
+    document.querySelectorAll('.iot-view');
+
+  function showView(viewName) {
+    const target =
+      document.getElementById(`view-${viewName}`);
+
+    if (!target) {
+      console.warn('Vista no encontrada:', viewName);
+      return;
+    }
+
+    views.forEach(view => {
+      view.hidden = view !== target;
+    });
+
+    navButtons.forEach(button => {
+      const active =
+        button.dataset.view === viewName;
+
+      button.classList.toggle('active', active);
+
+      if (active) {
+        button.setAttribute('aria-current', 'page');
+      } else {
+        button.removeAttribute('aria-current');
+      }
+    });
+  }
+
+  navButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      showView(button.dataset.view);
+    });
+  });
+
+  showView('control');
+</script>
+
+</body>
+</html>
