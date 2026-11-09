@@ -94,3 +94,34 @@ directamente la conectividad con Amazon RDS.
 - Inicio, secuencia y cancelacion de DEMO.
 - Caida y recuperacion de conexiones.
 - Integracion con excavadora fisica.
+### Prueba HTTP POST del comando DETENER — Evidencia 14.3
+
+**Fecha:** 9 de noviembre de 2026  
+**Entorno:** Aplicación web local en `http://127.0.0.1:5500`  
+**Herramienta:** Chrome DevTools, pestaña Network  
+**Servidor:** FastAPI desplegado en AWS  
+**Resultado:** SUPERADA para el registro HTTP del comando DETENER.
+
+**Procedimiento:**
+
+1. Se abrió la interfaz de Excavadora IoT desde localhost.
+2. Se estableció una sesión de pruebas autenticada.
+3. Se accionó el botón DETENER y se confirmó la operación.
+4. Se verificó en Network la solicitud POST al endpoint `/api/vehiculos/7/movimientos`.
+5. Se comprobó el cuerpo de la solicitud: `{"id_comando":47,"origen":"HTTP"}`.
+6. Se obtuvo una respuesta HTTP 200 OK.
+
+**Respuesta de FastAPI:**
+
+```json
+{
+  "mensaje": "Movimiento registrado",
+  "id_vehiculo": 7,
+  "id_comando": 47,
+  "codigo": 9
+}
+```
+
+**Conclusión:** Se verificó que la interfaz local puede enviar el comando DETENER mediante HTTP POST y recibir la confirmación de registro de FastAPI. La excavadora física estuvo desconectada durante la prueba. No se comprobó ejecución física ni recepción de eventos WebSocket.
+
+**Evidencias gráficas:** Capturas de Chrome DevTools correspondientes a Headers, Payload y Preview de la solicitud POST.
