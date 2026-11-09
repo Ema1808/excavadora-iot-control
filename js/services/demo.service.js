@@ -74,3 +74,59 @@ export async function cancelDemo() {
     }
   );
 }
+// Consultar los movimientos de una DEMO.
+// Solo lectura: no inicia movimientos físicos.
+export async function loadDemoMovements(idDemo, signal) {
+  if (!Number.isSafeInteger(idDemo) || idDemo <= 0) {
+    throw new Error('ID de DEMO inválido.');
+  }
+
+  const response = await requestJson(
+    `/api/demos/${idDemo}/movimientos`,
+    { signal }
+  );
+
+  const movements = Array.isArray(response)
+    ? response
+    : response?.value;
+
+  if (!Array.isArray(movements)) {
+    throw new Error('La secuencia DEMO no es válida.');
+  }
+
+  const orders = new Set();
+
+  const result = movements.map(item => {
+    if (
+      !item ||
+      !Number.isSafeInteger(item.orden) ||
+      item.orden <= 0 ||
+      !Number.isSafeInteger(item.id_comando) ||
+      item.id_comando <= 0 ||
+      typeof item.comando !== 'string' ||
+      !item.comando.trim() ||
+      !Number.isSafeInteger(item.duracion_ms) ||
+      item.duracion_ms < 0 ||
+      !Number.isSafeInteger(item.pausa_ms) ||
+      item.pausa_ms < 0
+    ) {
+      throw new Error('Movimiento DEMO inválido.');
+    }
+
+    if (orders.has(item.orden)) {
+      throw new Error('La DEMO contiene órdenes duplicados.');
+    }
+
+    orders.add(item.orden);
+
+    return Object.freeze({
+      order: item.orden,
+      commandId: item.id_comando,
+      command: item.comando,
+      durationMs: item.duracion_ms,
+      pauseMs: item.pausa_ms
+    });
+  });
+
+  return result.sort((a, b) => a.order - b.order);
+}

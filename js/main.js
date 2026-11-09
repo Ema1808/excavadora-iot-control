@@ -4,7 +4,10 @@ import { API_CONFIG } from './config/api.config.js';
 import { loadCommands } from './services/command.service.js';
 import { MovementService } from './services/movement.service.js';
 import { MovementCoordinator } from './services/movement-coordinator.js';
-import { loadDemos } from './services/demo.service.js';
+import {
+  loadDemos,
+  loadDemoMovements
+} from './services/demo.service.js';
 import { loadVehicleState } from './services/vehicle-state.service.js';
 import { checkApi } from './services/connectivity.service.js';
 import { initWebSocket } from './services/websocket.service.js';
@@ -95,7 +98,9 @@ const buttonsController = initButtons(
   }
 );
 
-const demoController = initDemoController();
+const demoController = initDemoController({
+  loadMovements: loadDemoMovements
+});
 
 // ==========================================
 // 6. WEBSOCKET
