@@ -125,3 +125,72 @@ directamente la conectividad con Amazon RDS.
 **Conclusión:** Se verificó que la interfaz local puede enviar el comando DETENER mediante HTTP POST y recibir la confirmación de registro de FastAPI. La excavadora física estuvo desconectada durante la prueba. No se comprobó ejecución física ni recepción de eventos WebSocket.
 
 **Evidencias gráficas:** Capturas de Chrome DevTools correspondientes a Headers, Payload y Preview de la solicitud POST.
+
+### Evidencia 14.4 — Diagnóstico de conexión WebSocket (WSS)
+
+**Fecha:** 9 de noviembre de 2026  
+**Proyecto:** Excavadora IoT  
+**Vehículo:** ID 7  
+**Resultado:** Conexión WSS y recepción de eventos pendientes de verificación.
+
+**Procedimiento:**
+
+1. Se revisó el archivo `js/services/websocket.service.js`.
+2. Se comprobó que el servicio implementa los eventos `open`, `message`, `error` y `close`.
+3. Se revisó `js/config/api.config.js`, donde se encontró `wsUrl: null`.
+4. Se buscó en `js/main.js` una llamada a `websocketController.connect()`, sin encontrar coincidencias.
+5. Se descargó y analizó la documentación OpenAPI del servidor FastAPI.
+6. Se comprobó que la documentación obtenida no describe el mecanismo de autenticación WebSocket.
+7. Se consideró el resultado de una prueba anterior, en la que el establecimiento de una conexión WSS sin autenticación recibió HTTP 403.
+
+**Resultados:**
+
+- El servicio WebSocket está implementado en JavaScript.
+- La conexión WSS se encuentra deshabilitada por configuración.
+- El frontend no contiene una llamada identificada para iniciar dicha conexión.
+- No se ha confirmado una sesión WebSocket autenticada.
+- No se han recibido eventos verificables correspondientes a cambios de dirección o DETENER.
+
+**Conclusión:**
+
+Se realizó el diagnóstico del módulo WebSocket y se identificaron las condiciones que impiden verificar la comunicación en tiempo real. La aplicación cuenta con la estructura necesaria para gestionar conexiones y mensajes WSS, pero requiere conocer el mecanismo de autenticación del backend antes de habilitarla.
+
+La evidencia demuestra el análisis técnico realizado, pero no acredita la recepción de eventos WebSocket ni la ejecución física de movimientos.
+
+### Evidencia 14.6 — Monitoreo de conectividad y recuperación HTTP
+
+**Fecha:** 9 de noviembre de 2026  
+**Entorno:** Frontend local `http://127.0.0.1:5500`  
+**Herramientas:** Chrome DevTools, pestaña Network.
+
+**Prueba 1. Disponibilidad de FastAPI**
+
+Se verificó que el indicador del servidor AWS mostraba «Disponible (GET comandos)». En Network se observaron respuestas HTTP 200 de las consultas de comandos, demostraciones y estado del vehículo.
+
+**Resultado:** SUPERADA.
+
+**Prueba 2. Simulación de pérdida de conexión**
+
+Se configuró Chrome DevTools en modo Offline. Durante la siguiente comprobación de conectividad, una solicitud HTTP falló y la interfaz mostró «Error de conexión».
+
+**Resultado:** SUPERADA.
+
+**Prueba 3. Recuperación de conexión**
+
+Se restauró la configuración No throttling. La interfaz volvió a mostrar «Disponible (GET comandos)» y se observaron nuevas respuestas HTTP 200.
+
+**Resultado:** SUPERADA.
+
+**Estado de WebSocket WSS**
+
+El indicador permaneció desconectado porque la conexión autenticada todavía no está configurada. No se verificaron eventos WebSocket de apertura, cierre o recuperación.
+
+**Estado de Amazon RDS**
+
+El indicador permaneció en «Sin verificar». Las respuestas exitosas de FastAPI no constituyen una comprobación directa de disponibilidad de Amazon RDS.
+
+**Conclusión**
+
+El frontend detecta correctamente la pérdida y recuperación de comunicación HTTP con FastAPI. La interrupción se simuló mediante Chrome DevTools, sin provocar una caída real del servidor AWS. Las comprobaciones de conexión WSS autenticada y disponibilidad directa de Amazon RDS permanecen pendientes.
+
+**Evidencias gráficas:** Capturas del estado disponible, fallo HTTP en modo Offline y recuperación con No throttling.
