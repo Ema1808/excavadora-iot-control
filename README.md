@@ -183,3 +183,26 @@ La integración completa con FastAPI desde GitHub Pages, la autenticación WSS y
 Ingeniería en Sistemas Computacionales
 
 2026
+## Pruebas de funcionamiento en dispositivo móvil
+
+Fecha: 9 de noviembre de 2026
+Entorno: GitHub Pages, navegador móvil
+URL: https://ema1808.github.io/excavadora-iot-control/
+
+Se realizaron siete pruebas funcionales de la interfaz:
+
+| No. | Prueba | Resultado |
+|---|---|---|
+| 1 | Carga de página y encabezado | Correcto |
+| 2 | Apertura y cierre del menú | Correcto |
+| 3 | Funcionamiento táctil del joystick | Correcto |
+| 4 | Controles de brazo y pala | Correcto |
+| 5 | Botón DETENER | Correcto |
+| 6 | Adaptación horizontal | Correcto |
+| 7 | Ausencia de desbordamiento horizontal | Correcto |
+
+Resultado: 7 de 7 pruebas satisfactorias (100 %).
+
+Nota: Las pruebas se realizaron en modo simulación.
+No se verificó el movimiento físico de la excavadora.
+
